@@ -1,11 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { Router, Route, hashHistory } from 'react-router'
+import Home from './components/Home.js'
+import Article from './components/Article.js'
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
-      <div>
-        <h1>React News App</h1>
-      </div>
+      <Router history={hashHistory} >
+        <Route path='/' component={Home} />
+      </Router>
     );
   }
 }
