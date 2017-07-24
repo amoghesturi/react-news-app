@@ -4,7 +4,8 @@
   "description": "Simple React app to fetch news from news API",
   "scripts": {
     "lint": "eslint src",
-    "start": "node server.js"
+    "build": "webpack",
+    "dev": "webpack-dev-server --hot --inline"
   },
   "repository": "https://github.com/amoghesturi/react-news-app.git",
   "keywords": [
@@ -40,6 +41,5 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router": "^3.0.5"
-  },
-  "main": "server.js"
+  }
 }
