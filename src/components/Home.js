@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Spinner from 'react-spinkit';
 
 import Ul from './Ul.js';
 import NewsList from './NewsList.js';
@@ -34,7 +35,7 @@ class Home extends React.Component {
         <div className="container">
           {/* Categories */}
           <div className="col-md-2">
-            { this.props.categories.isFetching && <p>Loading...</p> }
+            { this.props.categories.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { !this.props.categories.isFetching &&
               !this.props.categories.list.length &&
               <p>Empty...</p> }
@@ -47,7 +48,7 @@ class Home extends React.Component {
           </div>
           {/* Sources */}
           <div className="col-md-2">
-            { this.props.sources.isFetching && <p>Loading...</p> }
+            { this.props.sources.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { (!this.props.sources.isFetching &&  this.props.sources.list.length) ?
               <Ul list={this.props.sources.list}
                 selected={this.props.sources.selected}
@@ -56,7 +57,7 @@ class Home extends React.Component {
           </div>
           {/* Articles */}
           <div className="col-md-8">
-            { this.props.articles.isFetching && <p>Loading...</p> }
+            { this.props.articles.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { (!this.props.articles.isFetching && this.props.articles.list.length ) ?
               <NewsList articles={this.props.articles.list}/> : null
             }
