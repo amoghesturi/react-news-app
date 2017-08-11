@@ -36,10 +36,19 @@
   "dependencies": {
     "axios": "^0.16.1",
     "babel-loader": "^7.0.0",
+    "lodash.isequal": "^4.5.0",
     "lodash.uniq": "^4.5.0",
+    "lodash.uniqwith": "^4.5.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-router": "^3.0.5"
+    "react-redux": "^5.0.6",
+    "react-router": "^3.0.5",
+    "react-spinkit": "^3.0.0",
+    "react-toolbox": "^2.0.0-beta.12",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
   }
 }

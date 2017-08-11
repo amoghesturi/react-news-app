@@ -1,15 +1,22 @@
 import React from 'react';
-import { Router, Route, hashHistory } from 'react-router'
-import Home from './components/Home.js'
-import Article from './components/Article.js'
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
-class App extends React.Component {
-  render() {
-    return (
-      <Router history={hashHistory} >
-        <Route path='/' component={Home} />
-      </Router>
-    );
-  }
-}
+import Home from './containers/home'
+import rootReducer from './reducers';
+
+const loggerMiddleware = createLogger();
+
+const store = createStore(rootReducer,
+  applyMiddleware(thunkMiddleware, loggerMiddleware)
+)
+
+const App = () => (
+  <Provider store={store}>
+    
+    <Home />
+  </Provider>
+);
 export default App;

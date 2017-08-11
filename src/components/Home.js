@@ -1,95 +1,65 @@
 import React from 'react';
-import axios from 'axios';
-var uniq = require('lodash.uniq');
+import PropTypes from 'prop-types';
 
 import Ul from './Ul.js';
 import NewsList from './NewsList.js';
-import { capitalize } from '../helpers/utils.js'
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      allSources: [],
-      categories: [],
-      sources: [],
-      categorySelected: '',
-      sourceSelected: '',
-      articles: []
-    }
 
-    this.handleCategoryClick = this.handleCategoryClick.bind(this);
-    this.handleSourceClick = this.handleSourceClick.bind(this);
+    this.handleOnClickCategory = this.handleOnClickCategory.bind(this);
+    this.handleOnClickSource = this.handleOnClickSource.bind(this);
   }
 
-  handleCategoryClick(e) {
+  handleOnClickCategory(e) {
     e.preventDefault();
-    let categorySelected = e.target.id;
-    let sources = getSourcesGivenCategory(this.state.allSources, categorySelected)
-
-    this.setState({
-      sources,
-      categorySelected,
-    });
+    this.props.handleOnClickCategory(e.target.id);
   }
 
-  handleSourceClick(e) {
+  handleOnClickSource(e) {
     e.preventDefault();
-    const sourceId = e.target.id;
-    console.log(sourceId);
-    const API_KEY = '21550f02cc33458a95ac12958f2881a0';
-
-    let url = `https://newsapi.org/v1/articles?source=${sourceId}&apiKey=${API_KEY}`;
-    axios.get(url)
-      .then( (response) => {
-        this.setState({
-          sourceSelected: sourceId,
-          articles: response.data.articles
-        })
-      })
-      .catch( (error) => {
-        console.error(error);
-      })
+    this.props.handleOnClickSource(e.target.id);
   }
 
   componentDidMount() {
-    axios.get('https://newsapi.org/v1/sources')
-      .then( (response) => {
-        let cats = uniq(response.data.sources.map((cat) => cat.category));
-        let newCategories = [];
-        cats.forEach( (c) => {
-          newCategories.push({
-            id: c,
-            name: capitalize(c)
-          });
-        });
-        this.setState({
-          allSources: response.data.sources,
-          categories: newCategories,
-        });
-      })
-      .catch( (error) => {
-        console.error(error);
-      })
+    this.props.getCategories();
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <h1 className="text-center">React News App</h1>
         <div className="container">
-          <div className="col-md-3">
-            <Ul list={this.state.categories}
-              selected={this.state.categorySelected}
-              handleOnClick={this.handleCategoryClick}/>
+          {/* Categories */}
+          <div className="col-md-2">
+            { this.props.categories.isFetching && <p>Loading...</p> }
+            { !this.props.categories.isFetching &&
+              !this.props.categories.list.length &&
+              <p>Empty...</p> }
+            { !this.props.categories.isFetching &&
+              this.props.categories.list.length &&
+              <Ul list={this.props.categories.list}
+                selected={this.props.categories.selected}
+                handleOnClick={this.handleOnClickCategory}/>
+            }
           </div>
-          <div className="col-md-3">
-            <Ul list={this.state.sources}
-              selected={this.state.sourceSelected}
-              handleOnClick={this.handleSourceClick} />
+          {/* Sources */}
+          <div className="col-md-2">
+            { this.props.sources.isFetching && <p>Loading...</p> }
+            { (!this.props.sources.isFetching &&  this.props.sources.list.length) ?
+              <Ul list={this.props.sources.list}
+                selected={this.props.sources.selected}
+                handleOnClick={this.handleOnClickSource} /> : null
+             }
           </div>
-          <div className="col-md-6">
-            <NewsList articles={this.state.articles}/>
+          {/* Articles */}
+          <div className="col-md-8">
+            { this.props.articles.isFetching && <p>Loading...</p> }
+            { (!this.props.articles.isFetching && this.props.articles.list.length ) ?
+              <NewsList articles={this.props.articles.list}/> : null
+            }
           </div>
         </div>
       </div>
@@ -97,16 +67,27 @@ class Home extends React.Component {
   }
 }
 
-function getSourcesGivenCategory(sources, category) {
-  let sourceCopy = sources.slice(0);
-  let catSources = [];
-  sourceCopy.forEach( (source) => {
-    if(source.category === category) {
-      catSources.push(source);
-    }
-  });
-
-  return catSources;
+Home.propTypes = {
+  handleOnClickCategory: PropTypes.func.isRequired,
+  handleOnClickSource: PropTypes.func.isRequired,
+  getCategories: PropTypes.func.isRequired,
+  categories: PropTypes.shape({
+    list: PropTypes.array,
+    isFetching: PropTypes.bool,
+    selected: PropTypes.string,
+    error: PropTypes.any,
+  }),
+  sources: PropTypes.shape({
+    list: PropTypes.array,
+    isFetching: PropTypes.bool,
+    selected: PropTypes.string,
+    error: PropTypes.any,
+  }),
+  articles: PropTypes.shape({
+    list: PropTypes.array,
+    isFetching: PropTypes.bool,
+    error: PropTypes.any,
+  }),
 }
 
 export default Home;

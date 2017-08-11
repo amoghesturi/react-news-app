@@ -5,10 +5,10 @@ import Li from './Li.js'
 
 class Categories extends React.Component {
   render() {
-    let list = this.props.list.slice(0);
+    let list = [...this.props.list];
 
     let p = list.map( (l) => {
-      let selected = this.props.selected ? 'selected' : '';
+      let selected = (this.props.selected === l.id) ? 'selected' : '';
       return <Li key={l.id}
         selected={selected}
         id={l.id}
