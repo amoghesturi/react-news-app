@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List, ListSubHeader} from 'react-toolbox/lib/list';
 
 import Li from './Li.js'
 
@@ -7,18 +8,19 @@ class Categories extends React.Component {
   render() {
     let list = [...this.props.list];
 
-    let p = list.map( (l) => {
-      let selected = (this.props.selected === l.id) ? 'selected' : '';
-      return <Li key={l.id}
+    let listItems = list.map( (item) => {
+      let selected = (this.props.selected === item.id) ? 'selected' : '';
+      return <Li key={item.id}
         selected={selected}
-        id={l.id}
-        value={l.name}
+        id={item.id}
+        value={item.name}
         handleOnClick={this.props.handleOnClick}></Li>
     });
     return (
-      <ul className="categories">
-        {p}
-      </ul>
+      <List selectable ripple>
+        <ListSubHeader caption={this.props.header} />
+        { listItems }
+      </List>
     )
   }
 }

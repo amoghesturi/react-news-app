@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Spinner from 'react-spinkit';
+import AppBar from 'react-toolbox/lib/app_bar';
 
 import Ul from './Ul.js';
 import NewsList from './NewsList.js';
@@ -28,13 +29,13 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
-        <h1 className="text-center">React News App</h1>
+        <AppBar title="React News App" flat="true"/>
+        {/* <h1 className="text-center">React News App</h1> */}
         <div className="container">
           {/* Categories */}
-          <div className="col-md-2">
+          <div className="categories">
             { this.props.categories.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { !this.props.categories.isFetching &&
               !this.props.categories.list.length &&
@@ -42,21 +43,23 @@ class Home extends React.Component {
             { !this.props.categories.isFetching &&
               this.props.categories.list.length &&
               <Ul list={this.props.categories.list}
+                header="Categories"
                 selected={this.props.categories.selected}
                 handleOnClick={this.handleOnClickCategory}/>
             }
           </div>
           {/* Sources */}
-          <div className="col-md-2">
+          <div className="sources">
             { this.props.sources.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { (!this.props.sources.isFetching &&  this.props.sources.list.length) ?
               <Ul list={this.props.sources.list}
+                header="Sources"
                 selected={this.props.sources.selected}
                 handleOnClick={this.handleOnClickSource} /> : null
              }
           </div>
           {/* Articles */}
-          <div className="col-md-8">
+          <div className="articles">
             { this.props.articles.isFetching && <Spinner name="line-scale" color="steelblue" fadeIn="0"/> }
             { (!this.props.articles.isFetching && this.props.articles.list.length ) ?
               <NewsList articles={this.props.articles.list}/> : null

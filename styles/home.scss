@@ -1,6 +1,41 @@
+html, body {
+  overflow: hidden;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  height: 64px;
+  z-index: 1;
+}
+
+.container {
+  height: 100vh;
+  padding-top: 64px;
+  padding-top: 64px;
+}
+
 .categories {
   list-style-type: none;
   line-height: 35px;
+  width: 20%;
+  height: 100vh;
+  overflow: auto;
+  float:left;
+}
+
+.sources {
+  width: 20%;
+  height: 100vh;
+  overflow: auto;
+  float:left;
+}
+
+.articles {
+  width: 60%;
+  height: 100vh;
+  overflow: auto;
+  float:left;
 }
 
 .selected {

@@ -1,3 +1,6 @@
 export function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  let splitString = string.split('-').map( (s) => {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  })
+  return splitString.join(' ')
 }
